@@ -1,3 +1,10 @@
+/*
+Name: Ferguson, Macy
+Assignment: Week 7 - Weather
+Description: Displays temperature and weather results based on user's input (city name)
+Date: March 2, 2025
+*/
+
 const express = require("express");
 const https = require("https");
 const bodyParser = require("body-parser");
@@ -13,7 +20,7 @@ app.get("/", function (req, res) {
 
 //invoked after hitting go in the html form
 app.post("/", function (req, res) {
-  // takes in the zip from the html form, display in // console. Takes in as string, ex. for zip 02139
+  // takes in the city name from the html form, display in // console
   var city = String(req.body.cityInput);
   console.log(req.body.cityInput);
 
