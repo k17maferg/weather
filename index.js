@@ -1,8 +1,8 @@
 /*
 Name: Ferguson, Macy
-Assignment: Week 7 - Weather
-Description: Displays temperature and weather results based on user's input (city name)
-Date: March 2, 2025
+Assignment: Week 8 - Weather
+Description: Displays temperature and weather results based on user's input (latitude and longitude)
+Date: March 9, 2025
 */
 
 const express = require("express");
@@ -20,16 +20,21 @@ app.get("/", function (req, res) {
 
 //invoked after hitting go in the html form
 app.post("/", function (req, res) {
-  // takes in the city name from the html form, display in // console
-  var city = String(req.body.cityInput);
-  console.log(req.body.cityInput);
+  // takes in the latitude from the html form, display in // console
+  var latitude = String(req.body.latInput);
+  console.log(req.body.latInput);
+  // takes in the longitude from the html form, display in // console
+  var longitude = String(req.body.lonInput);
+  console.log(req.body.lonInput);
 
   //build up the URL for the JSON query, API Key is // secret and needs to be obtained by signup
   const units = "imperial";
   const apiKey = "3c769d392d44007cf6bbd26b5782c1f5";
   const url =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    city +
+    "https://api.openweathermap.org/data/2.5/weather?lat=" +
+    latitude +
+    "&lon=" +
+    longitude +
     "&units=" +
     units +
     "&APPID=" +
@@ -48,14 +53,16 @@ app.post("/", function (req, res) {
       const feelsLike = weatherData.main.feels_like;
       const humidity = weatherData.main.humidity;
       const windSpeed = weatherData.wind.speed;
-      const pressure = weatherData.main.pressure;
+      const cloudiness = weatherData.clouds.all;
       const imageURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
 
       // displays the output of the results
       res.write("<h1> The weather is " + weatherDescription + "<h1>");
       res.write(
-        "<h2>The Temperature in " +
-          city +
+        "<h2>The Temperature at latitude " +
+          latitude +
+          " and longitude " +
+          longitude +
           " is " +
           temp +
           " Degrees Fahrenheit<h2>"
@@ -63,7 +70,7 @@ app.post("/", function (req, res) {
       res.write("<h3>Feels Like: " + feelsLike + " Degrees F</h3>");
       res.write("<h3>Humidity: " + humidity + "%</h3>");
       res.write("<h3>Wind Speed: " + windSpeed + " m/s%</h3>");
-      res.write("<h3>Pressure: " + pressure + "hPa</h3>");
+      res.write("<h3>Cloudiness: " + cloudiness + "%</h3>");
       res.write("<img src=" + imageURL + ">");
       res.send();
     });
@@ -72,5 +79,5 @@ app.post("/", function (req, res) {
 
 //Code will run on 3000 or any available open port
 app.listen(process.env.PORT || 3000, function () {
-  console.log("Server is running on port");
+  console.log("Server is running on port 3000");
 });
